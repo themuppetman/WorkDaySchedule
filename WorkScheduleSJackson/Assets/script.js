@@ -1,7 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
 $(function () {
   // Set local settings if needed
   const localSettings = {};
@@ -26,19 +22,20 @@ $(function () {
       const key = $(this).parent().attr("id");
       const value = $(this).siblings(".description").val();
       localStorage.setItem(key, value);
+      $(this).addClass("saved");
+      setTimeout(() => {
+        $(this).removeClass("saved");
+      }, 500);
     });
   }
 
-  // Function to refresh the color of the time-blocks based on past(red), present(blue), or future(green)
-  function refresh() {
+  // Load saved data from local storage
+  function loadSavedData() {
     $(".time-block").each(function () {
-      const blockHour = parseInt(this.id.split("-")[1]);
-      if (blockHour == currentHour) {
-        $(this).removeClass("past future").addClass("present");
-      } else if (blockHour < currentHour) {
-        $(this).removeClass("present future").addClass("past");
-      } else {
-        $(this).removeClass("past present").addClass("future");
+      const key = $(this).attr("id");
+      const savedValue = localStorage.getItem(key);
+      if (savedValue) {
+        $(this).find(".description").val(savedValue);
       }
     });
   }
@@ -56,7 +53,7 @@ $(function () {
   // Call main functions to run
   hourlyColor();
   textSave();
-  refresh();
+  loadSavedData();
 
   // Call updateTime once per second to update the time in the header
   setInterval(updateTime, 1000);
