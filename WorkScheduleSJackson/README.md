@@ -42,7 +42,7 @@ THEN the saved events persist
 
   ## Demo 
 
-  ![Demo]()
+  ![Demo](https://github.com/themuppetman/WorkDaySchedule/blob/main/WorkScheduleSJackson/Assets/workday.gif)
   
   ## Installation
   - Clone repository from GitHub
